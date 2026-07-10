@@ -22,33 +22,33 @@ public:
     
     // Addition
     bigint operator+(const bigint& other) const;
-    // bigint& operator+=(const bigint& other);
+    bigint& operator+=(const bigint& other);
     
     // // Increment
-    // bigint& operator++();    // ++x
-    // bigint operator++(int);  // x++
+    bigint& operator++();    // ++x
+    bigint operator++(int);  // x++
     
     // // Digit shifts (with unsigned int)
-    // bigint operator<<(unsigned int n) const;
-    // bigint operator>>(unsigned int n) const;
-    // bigint& operator<<=(unsigned int n);
-    // bigint& operator>>=(unsigned int n);
+    bigint operator<<(unsigned int n) const;
+    bigint operator>>(unsigned int n) const;
+    bigint& operator<<=(unsigned int n);
+    bigint& operator>>=(unsigned int n);
     
     // // Digit shifts (with bigint)
-    // bigint operator<<(const bigint& other) const;
-    // bigint operator>>(const bigint& other) const;
-    // bigint& operator<<=(const bigint& other);
-    // bigint& operator>>=(const bigint& other);
+    bigint operator<<(const bigint& other) const;
+    bigint operator>>(const bigint& other) const;
+    bigint& operator<<=(const bigint& other);
+    bigint& operator>>=(const bigint& other);
     
     // // Comparisons
-    // bool operator==(const bigint& other) const;
-    // bool operator!=(const bigint& other) const;
-    // bool operator<(const bigint& other) const;
-    // bool operator>(const bigint& other) const;
-    // bool operator<=(const bigint& other) const;
-    // bool operator>=(const bigint& other) const;
+    bool operator==(const bigint& other) const;
+    bool operator!=(const bigint& other) const;
+    bool operator<(const bigint& other) const;
+    bool operator>(const bigint& other) const;
+    bool operator<=(const bigint& other) const;
+    bool operator>=(const bigint& other) const;
 };
 
-// std::ostream& operator<<(std::ostream& os, const bigint& obj);
+std::ostream& operator<<(std::ostream& os, const bigint& obj);
 
 #endif
