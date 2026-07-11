@@ -90,7 +90,7 @@ bigint& bigint::operator++()
 bigint bigint::operator++(int)
 {
     bigint temp(*this);
-    (*this)++;
+    (*this) += 1;
     return temp;
 }
 
@@ -194,4 +194,5 @@ bool bigint::operator>=(const bigint& other) const
 std::ostream& operator<<(std::ostream& os, const bigint& obj)
 {
     os << obj.getStr();
+    return os;
 }
