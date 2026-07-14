@@ -1,5 +1,4 @@
 #include "bigint.hpp"
-#include <bits/stdc++.h>
 
 bigint::bigint(): str("0")
 {
@@ -41,7 +40,7 @@ bigint bigint::operator+(const bigint& other) const
         std::swap(a, b);
     
     int rest = 0;
-    std::string result;
+    bigint result;
     for (int i = 0; i < a.length(); i++)
     {
         int digit1;
@@ -65,14 +64,14 @@ bigint bigint::operator+(const bigint& other) const
         }
         else rest = 0;
         // std::cout << "entering: " << (char) (temp_addition + '0') << std::endl;
-        result += temp_addition + '0';
+        result.str += temp_addition + '0';
     }
     if (rest)
-        result += rest + '0';
-    std::reverse(result.begin(), result.end());
+        result.str += rest + '0';
+    std::reverse(result.str.begin(), result.str.end());
     // std::cout << "rest: " << rest << std::endl;
     // std::cout << "result: " << result << std::endl;
-    return bigint(*this);
+    return result;
 }
 
 bigint& bigint::operator+=(const bigint& other)
@@ -105,7 +104,10 @@ bigint bigint::operator<<(unsigned int n) const
 bigint bigint::operator>>(unsigned int n) const
 {
     bigint result(*this);
-    result.str = str.substr(0, str.length() - n);
+    if (n > str.length())
+        result.str = "0";
+    else
+        result.str = str.substr(0, str.length() - n);
     return result;
 }
 
@@ -123,6 +125,7 @@ bigint& bigint::operator>>=(unsigned int n)
 
 unsigned int my_to_long(const char *str)
 {
+    errno = 0;
     long unsigned_value = strtol(str, NULL, 10);
     if (errno == ERANGE || unsigned_value > UINT_MAX)
         throw std::runtime_error("Error");
@@ -131,30 +134,24 @@ unsigned int my_to_long(const char *str)
 
 bigint bigint::operator<<(const bigint& other) const
 {
-    bigint result(*this);
-    for (bigint i(0); i < other; i++)
-        result.str += '0';
-    return result;
+    unsigned int n = my_to_long(other.str.c_str());
+    return *this << n;
 }
 
 bigint bigint::operator>>(const bigint& other) const
 {
-    bigint result(*this);
-    unsigned int unsigned_value = my_to_long(str.c_str());
-    result.str = str.substr(0, str.length() - unsigned_value);
-    return result;
+    unsigned int n = my_to_long(other.str.c_str());
+    return *this >> n;
 }
 
 bigint& bigint::operator<<=(const bigint& other)
 {
-    *this = *this << my_to_long(other.str.c_str());
-    return *this;
+    return *this <<= my_to_long(other.str.c_str());
 }
 
 bigint& bigint::operator>>=(const bigint& other)
 {
-    *this = *this >> my_to_long(other.str.c_str());
-    return *this;
+    return *this >>= my_to_long(other.str.c_str());
 }
 
 bool bigint::operator==(const bigint& other) const
@@ -169,16 +166,16 @@ bool bigint::operator!=(const bigint& other) const
 
 bool bigint::operator<(const bigint& other) const
 {
-    if (str.length() < other.str.length() || (str.length() == other.str.length() && str[0] < other.str[0]))
-        return true;
-    return false;
+    if (str.length() != other.str.length())
+        return str.length() < other.str.length();
+    return str < other.str;
 }
 
 bool bigint::operator>(const bigint& other) const
 {
-    if (other.str.length() < str.length() || (str.length() == other.str.length() && other.str[0] < str[0]))
-        return true;
-    return false;
+    if (str.length() != other.str.length())
+        return str.length() > other.str.length();
+    return str > other.str;
 }
 
 bool bigint::operator<=(const bigint& other) const
